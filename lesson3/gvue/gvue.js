@@ -8,7 +8,7 @@ function defineReactive(obj, key, val) {
 
   Object.defineProperty(obj, key, {
     get() {
-      console.log("get", key, val);
+      // console.log("get", key, val);
       // 依赖收集
       Dep.target && dep.addDep(Dep.target)
       return val;
@@ -25,7 +25,7 @@ function defineReactive(obj, key, val) {
         // 如果newVal是对象，也要响应式
         observe(newVal);
         val = newVal;
-        console.log("set", key, val);
+        // console.log("set", key, val);
 
         // watchers.forEach(w => w.update())
         // 通知更新
@@ -62,7 +62,11 @@ class Observer {
     this.value = val;
     // 判断value 类型
     // 遍历对象
-    this.walk(this.value);
+    if(typeof value === 'object') {
+      this.walk(this.value);
+    } else {
+      
+    }
   }
 
   walk(obj) {
@@ -126,13 +130,28 @@ class Compile {
         const dir = attrName.substring(2); // xxx
         // 指令实际操作方法
         this[dir] && this[dir](node, exp);
+      } else if(this.isEvent(attrName)) {
+          const dir = attrName.substring(1)
+          this.eventHandler(node, exp, dir)
+
       }
       // 处理事件 双绑 g-model值的赋值和监听
     });
   }
 
+  eventHandler(node, exp, dir) {
+      let method = this.$vm.$methods && this.$vm.$methods[exp]
+      if(method && dir) {
+        node.addEventListener(dir, method.bind(this.$vm))
+      }
+  }
+
   isDirective(attr) {
     return attr.indexOf("g-") === 0;
+  }
+
+  isEvent(attr) {
+    return attr.indexOf('@') === 0
   }
   // 执行text指令对应的更新函数
   text(node, exp) {
@@ -145,9 +164,18 @@ class Compile {
   html(node, exp) {
     this.update(node, exp, "html");
   }
-
   htmlUpdater(node, val) {
     node.innerHTML = val;
+  }
+
+  model(node, exp) {
+    this.update(node, exp, 'model');
+    node.addEventListener('input', e => {
+      this.$vm[exp] = e.target.value
+    })
+  }
+  modelUpdater(node, val) {
+      node.value = val
   }
 
   // 先提取update，初始化和更新函数的创建
@@ -166,6 +194,7 @@ class GVue {
   constructor(options) {
     this.$options = options;
     this.$data = options.data;
+    this.$methods = options.methods
     observe(this.$data);
     // 1. 将data做响应式处理
     // 2. 为$data做代理

@@ -12,7 +12,9 @@
         <p>{{counter}}</p>
         <p g-text="counter"></p>
         <p g-html="desc"></p>
-        <input g-model="amount">
+        <input g-model="name">
+        <div>{{name}}</div>
+        <button @click="add">counter自增</button></button></button>
     </div>
     <!-- <script src="../vue.min.js"></script> -->
     <script src="gvue.js"></script>
@@ -22,12 +24,17 @@
             data: {
                 counter: 1,
                 desc: `<span style="color:blue">一线蓝光</span>`,
-                amount: ''
+                name: ''
+            },
+            methods: {
+                add (){
+                    this.counter++
+                }
             }
         })
-        setInterval(() => {
-            app.counter++
-        }, 1000)
+        // setInterval(() => {
+        //     app.counter++
+        // }, 1000)
     </script>
 </body>
 
