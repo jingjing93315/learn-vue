@@ -5,6 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        .box {
+            position: relative;
+        }
+        .title {
+            position: absolute;
+            left: 0;
+            top:0;
+        }
+    </style>
 </head>
 
 <body>
@@ -14,6 +24,10 @@
         <p g-html="desc"></p>
         <input g-model="name">
         <div>{{name}}</div>
+        <div class="box">
+            <span class="title">你好：</span></span>
+            <textarea class="input-box" name="" id="" cols="30" rows="10" ></textarea>
+        </div>
         <button @click="add">counter自增</button></button></button>
     </div>
     <!-- <script src="../vue.min.js"></script> -->
@@ -32,9 +46,9 @@
                 }
             }
         })
-        // setInterval(() => {
-        //     app.counter++
-        // }, 1000)
+        setInterval(() => {
+            app.counter++
+        }, 1000)
     </script>
 </body>
 

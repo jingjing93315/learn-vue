@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
-
+import Notice from './utils/create1'
+Vue.use(Notice)
 Vue.config.productionTip = false
 
 

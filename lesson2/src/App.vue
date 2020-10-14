@@ -19,7 +19,7 @@ export default {
   components: {
     HelloWorld
   }
-}
+} 
 </script>
 
 <style>
