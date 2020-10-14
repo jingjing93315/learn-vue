@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            position: relative;
+        }
+        .title {
+            position: absolute;
+            left: 0;
+            top:0;
+        }
+        .abs-box {
+            width: 100px;
+            height: 100px;
+            background: red;
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <p>{{counter}}</p>
+        <p k-text="counter"></p>
+        <p k-html="desc"></p>
+        <input k-model="name">
+        <div>{{name}}</div>
+        <div class="box">
+            <span class="title">你好：</span></span>
+            <textarea class="input-box" name="" id="" cols="30" rows="10" ></textarea>
+        </div>
+        <button @click="add">counter自增</button></button></button>
+
+        <div class="abs-box"></div>
+    </div>
+    <!-- <script src="../vue.min.js"></script> -->
+    <script src="kvue.js"></script>
+    <script>
+        const app = new KVue({
+            el: '#app',
+            data: {
+                counter: 1,
+                desc: `<span style="color:blue">一线蓝光</span>`,
+                name: ''
+            },
+            methods: {
+                add (){
+                    this.counter++
+                }
+            }
+        })
+        // setInterval(() => {
+        //     app.counter++
+        // }, 1000)
+    </script>
+</body>
+
+</html>
